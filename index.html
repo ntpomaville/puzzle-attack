@@ -35,24 +35,32 @@
 
     var game = new Phaser.Game(config);
 
+    var grid = 64
+
+    var testcube;
+    var testcube2;
+
     function preload ()
     {
-        this.load.spritesheet('testcube',
+        this.load.spritesheet('block',
             'assets/testcube.png',
-            { frameWidth: 64, frameHeight: 64}
+            { frameWidth: grid, frameHeight: grid}
         );    
     }
 
-    var testcube;
+    
 
     function create ()
     {
         //Create Cube
-        testcube = this.physics.add.sprite(100, 450, 'block').setInteractive();
+        testcube = this.physics.add.sprite(540, 960, 'block').setInteractive();
+        testcube2 = this.physics.add.sprite(128, 960, 'block').setInteractive();
         testcube.setCollideWorldBounds(true);
+        testcube2.setCollideWorldBounds(true);
 
         //Set cube draggable horizontal
         this.input.setDraggable(testcube);
+        this.input.setDraggable(testcube2);
 
         this.input.on('dragstart', function (pointer, gameObject) {
 
@@ -62,7 +70,9 @@
 
             this.input.on('drag', function (pointer, gameObject, dragX) {
 
-                gameObject.x = dragX;
+                //snap to grid
+                gameObject.x = Math.round(dragX / grid) * grid;
+                console.log(gameObject.x);
 
             });
 
@@ -70,7 +80,8 @@
 
                 gameObject.clearTint();
 
-        });
+            });
+
     }
 
     function update ()
