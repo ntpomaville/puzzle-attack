@@ -22,7 +22,7 @@
         physics: {
             default: 'arcade',
             arcade: {
-                gravity: { y: 300 },
+                gravity: { y: 2000 },
                 debug: false
             }
         },
@@ -53,8 +53,8 @@
     function create ()
     {
         //Create Cube
-        testcube = this.physics.add.sprite(540, 960, 'block').setInteractive();
-        testcube2 = this.physics.add.sprite(128, 960, 'block').setInteractive();
+        testcube = this.physics.add.sprite(64, 960, 'block').setInteractive();
+        testcube2 = this.physics.add.sprite(64, 700, 'block').setInteractive();
         testcube.setCollideWorldBounds(true);
         testcube2.setCollideWorldBounds(true);
 
@@ -62,25 +62,37 @@
         this.input.setDraggable(testcube);
         this.input.setDraggable(testcube2);
 
+        this.physics.add.collider(testcube, testcube2);
+
         this.input.on('dragstart', function (pointer, gameObject) {
 
-                gameObject.setTint(0xff0000);
+            gameObject.setTint(0xff0000);
 
-            });
+        });
 
-            this.input.on('drag', function (pointer, gameObject, dragX) {
+        this.input.on('drag', function (pointer, gameObject, dragX) {
 
-                //snap to grid
-                gameObject.x = Math.round(dragX / grid) * grid;
-                console.log(gameObject.x);
+            //snap to grid
+            gameObject.x = Math.round(dragX / grid) * grid;
 
-            });
+        });
 
-            this.input.on('dragend', function (pointer, gameObject) {
 
-                gameObject.clearTint();
 
-            });
+        this.input.on('dragend', function (pointer, gameObject) {
+
+            gameObject.clearTint();
+
+        });
+
+
+
+        this.input.on('dragenter', function(pointer, gameObject, target) {
+
+            target.setTint(0x0000ff);
+            console.log("trigger");
+
+        });
 
     }
 
