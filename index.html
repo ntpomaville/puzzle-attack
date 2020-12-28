@@ -1,0 +1,86 @@
+<!doctype html> 
+<html lang="en"> 
+<head> 
+    <meta charset="UTF-8" />
+    <title>Puzzle Attack!</title>
+    <script src="//cdn.jsdelivr.net/npm/phaser@3.11.0/dist/phaser.js"></script>
+    <style type="text/css">
+        body {
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+
+<script type="text/javascript">
+
+    var config = {
+        type: Phaser.AUTO,
+        width: 540,
+        height: 960,
+        backgroundColor: '#9dadbd',
+        physics: {
+            default: 'arcade',
+            arcade: {
+                gravity: { y: 300 },
+                debug: false
+            }
+        },
+        scene: {
+            preload: preload,
+            create: create,
+            update: update
+        }
+    };
+
+    var game = new Phaser.Game(config);
+
+    function preload ()
+    {
+        this.load.spritesheet('testcube',
+            'assets/testcube.png',
+            { frameWidth: 64, frameHeight: 64}
+        );    
+    }
+
+    var testcube;
+
+    function create ()
+    {
+        //Create Cube
+        testcube = this.physics.add.sprite(100, 450, 'block').setInteractive();
+        testcube.setCollideWorldBounds(true);
+
+        //Set cube draggable horizontal
+        this.input.setDraggable(testcube);
+
+        this.input.on('dragstart', function (pointer, gameObject) {
+
+                gameObject.setTint(0xff0000);
+
+            });
+
+            this.input.on('drag', function (pointer, gameObject, dragX) {
+
+                gameObject.x = dragX;
+
+            });
+
+            this.input.on('dragend', function (pointer, gameObject) {
+
+                gameObject.clearTint();
+
+        });
+    }
+
+    function update ()
+    {
+
+    }
+
+
+
+</script>
+
+</body>
+</html>
