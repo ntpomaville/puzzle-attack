@@ -53,16 +53,17 @@
     function create ()
     {
         //Create Cube
-        testcube = this.physics.add.sprite(64, 960, 'block').setInteractive();
-        testcube2 = this.physics.add.sprite(64, 700, 'block').setInteractive();
+        testcube = this.physics.add.sprite(128, 960, 'block').setInteractive(new Phaser.Geom.Rectangle(0, 0, 64, 64), Phaser.Geom.Rectangle.Contains, dropZone=true);
+        testcube2 = this.physics.add.sprite(128, 700, 'block').setInteractive(new Phaser.Geom.Rectangle(0, 0, 64, 64), Phaser.Geom.Rectangle.Contains, dropZone=true);
         testcube.setCollideWorldBounds(true);
         testcube2.setCollideWorldBounds(true);
+        this.physics.add.collider(testcube, testcube2);
 
         //Set cube draggable horizontal
         this.input.setDraggable(testcube);
         this.input.setDraggable(testcube2);
 
-        this.physics.add.collider(testcube, testcube2);
+        
 
         this.input.on('dragstart', function (pointer, gameObject) {
 
@@ -89,8 +90,8 @@
 
         this.input.on('dragenter', function(pointer, gameObject, target) {
 
-            target.setTint(0x0000ff);
-            console.log("trigger");
+            gameObject.setTint(0x00ff00);
+            target.x = gameObject.x;
 
         });
 
